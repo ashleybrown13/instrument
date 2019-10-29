@@ -2,6 +2,11 @@ let osc
 let env
 let env2
 let filter
+let rain
+let windowS
+let rainsound
+let road
+let car
 
 let frequency = 50
 let circle_radius = 0
@@ -9,10 +14,19 @@ let circle_x = 0
 let circle_y = 0
 let noise
 
+function preload() {
+	rain = createImg("rain.gif")
+	windowS = createImg('windowS.png')
+	road = loadImage('road copy.png')
+	car = loadImage('car2.png')
+	// bark = loadSound('bark.mp3')
+}
+
 function setup() {
 
-	let canvas = createCanvas(windowWidth, windowHeight)
+	let canvas = createCanvas(480, 480)
 	canvas.parent("p5")
+	background(255, 228, 237)
 
 	osc = new p5.Oscillator()
 	osc.setType("square")
@@ -30,46 +44,27 @@ function setup() {
 	env2 = new p5.Envelope()
 	env2.setADSR(.01, .2, .05, .03)
 
+	rain.position(340, 50)
+	// road.position(340, 50)
+	windowS.position(340, 50)
+
+
 	// filter = new p5.LowPass()
 
 }
 
 
 function draw () {
-	noStroke()
 
-	fill( map(frequency, 2000, 20, 100, 255) , 228, 237)
-	rect(0, 0, width, height)
+	image(road, 30, 230)
+	image(car, 6, 40)
 
-//things following mouse
-	fill(255, 255, 0)
-	stroke(0)
-	line(0, 0, mouseX, mouseY)
-    line(width, 0, mouseX, mouseY)
-    line(0, height, mouseX, mouseY)
-    line(width, height, mouseX, mouseY)
-	ellipse(circle_x, circle_y, circle_radius, circle_radius)
-
-	if (circle_radius > 0 && mouseIsPressed == false) {
-		circle_radius -= 4
-	}
-
-	push()
-	noStroke()
-	if (osc.getType() == 'square') {
-		fill(0, 255, 0)
-	} else {
-		fill(0, 0, 255)
-	}
-
-	rect(10, 10, 30, 30)
-	pop()
 
 }
 
-function windowResized() {
-	resizeCanvas(windowWidth, windowHeight)
-}
+// function windowResized() {
+// 	resizeCanvas(windowWidth, windowHeight)
+// }
 
 function mousePressed() {
 	osc.start()
@@ -100,8 +95,8 @@ function mouseDragged() {
 	frequency = map(mouseY, 0, height, 2000, 20)
 	osc.freq(frequency)
 
-	circle_x = mouseX
-	circle_y = mouseY
+	// circle_x = mouseX
+	// circle_y = mouseY
 
 	// if (mouseX < width/2) {
 	// 	osc.setType('sawtooth')
@@ -129,3 +124,16 @@ function mouseClicked() {
 
 }
 
+function touchStarted() {
+	mousePressed()
+	mouseClicked()
+}
+
+function touchEnded() {
+	mouseReleased()
+}
+
+function mouseClicked() {
+		print(int(mouseX), int(mouseY))
+
+	}
