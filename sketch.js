@@ -7,6 +7,7 @@ let windowS
 let rainsound
 let road
 let car
+let reverb
 
 let frequency = 50
 let circle_radius = 0
@@ -19,8 +20,23 @@ function preload() {
 	windowS = createImg('windowS.png')
 	road = loadImage('road copy.png')
 	car = loadImage('car2.png')
-	// bark = loadSound('bark.mp3')
-}
+	cloud = loadImage('clouds.png')
+	rainsound = loadSound('rainlong.mp3')
+	tree = loadImage('tree.png')
+	doe = loadImage('deer.png')
+	fog = loadImage('fogS.png')
+	birds = loadImage('birds.png')
+	ground = loadImage('grassF.png')
+	sky = loadImage('sky.jpg')
+	rustle = loadSound('bushes.mp3')
+	carSound = loadSound('driving-2.mp3')
+	trunk = loadSound('woodtap.mp3')
+	birdSound = loadSound('Geese.mp3')
+	doeSound  = loadSound('FawnBleat.mp3')
+	// grassSound 
+	lightning = loadSound('thunder.mp3')
+	glasstap = loadSound('windowtap.mp3')
+	}
 
 function setup() {
 
@@ -28,100 +44,99 @@ function setup() {
 	canvas.parent("p5")
 	background(255, 228, 237)
 
-	osc = new p5.Oscillator()
-	osc.setType("square")
-	// osc.start()
-	osc.amp(0)
+	rainsound.setVolume(0.2);
 
-	noise = new p5.Noise()
-	noise.setType("white") // "brown" "pink"
-	noise.amp(0)
-	
-
-	env = new p5.Envelope()
-	env.setADSR(.001, .05, .0, .0)
-
-	env2 = new p5.Envelope()
-	env2.setADSR(.01, .2, .05, .03)
+	// reverb = new p5.Reverb()
+	// bark.disconnect()
+	// reverb.process(bark, 3, 2)
 
 	rain.position(340, 50)
-	// road.position(340, 50)
+	
 	windowS.position(340, 50)
-
-
-	// filter = new p5.LowPass()
 
 }
 
 
 function draw () {
-
+push()
+	tint(255, 30)
+	image(sky, 0, 0, 480, 400)
+pop()
+	image(ground, 20, 170, 768, 300)
 	image(road, 30, 230)
 	image(car, 6, 40)
-
+	image(cloud, 0, -80, 480, 200)
+	image(tree, 51, 110, 170, 210)
+	image(doe, 151, 279, 30, 20)
+	image(fog, 0, 350)
+push()
+	tint(255, 50)
+	image(birds, 41, 30)
+pop()
 
 }
 
-// function windowResized() {
-// 	resizeCanvas(windowWidth, windowHeight)
-// }
 
 function mousePressed() {
-	osc.start()
-	osc.amp(env)
-	env.triggerAttack()
 
-	noise.start()
-	noise.amp(env2)
-	env2.triggerAttack()
-
-	circle_radius = 100
-
-	circle_x = mouseX
-	circle_y = mouseY
-
-	mouseDragged()
 }
 
 function mouseReleased() {
-	// osc.stop()
-	env.triggerRelease()
-
-	// circle_radius = 0
-}
-
-function mouseDragged() {
-
-	frequency = map(mouseY, 0, height, 2000, 20)
-	osc.freq(frequency)
-
-	// circle_x = mouseX
-	// circle_y = mouseY
-
-	// if (mouseX < width/2) {
-	// 	osc.setType('sawtooth')
-	// } else {
-	// 	osc.setType('sine')
-	// }
-
-
-	let pan = map(mouseX, 0, width, -1, 1)
-	osc.pan(pan)
 
 }
+
+
+// function keyTyped() {
+
+// 	print('i typed the key ' + key)
+
+// 	if (key == 'k') {
+
+// 	}
+// }
+
 
 function mouseClicked() {
 
-	if (mouseX > 10 && mouseX < 40 && mouseY > 10 && mouseY < 40) {
-		print('button clicked')
+		rainsound.play()
 
-		if(osc.getType() == 'square') {
-			osc.setType('sine')
-		} else {
-			osc.setType('square')
-		}
+	//TREE RUSTLE
+	if (mouseX > 106 && mouseX < 171 && mouseY > 137 && mouseY < 244) {
+		print('tree clicked')
+		rustle.play()
 	}
 
+	if (mouseX > 285 && mouseX < 445 && mouseY > 265 && mouseY < 424) {
+		print('car clicked')
+		carSound.play()
+	}
+
+	if (mouseX > 131 && mouseX < 143 && mouseY > 243 && mouseY < 293) {
+		print('trunk')
+		trunk.play()
+	}
+
+	if (mouseX > 149 && mouseX < 183 && mouseY > 281 && mouseY < 298) {
+		print('doe')
+		doeSound.play()
+	}
+
+	if (mouseX > 118 && mouseX < 440 && mouseY > 64 && mouseY < 127) {
+		print('geese')
+		birdSound.play()
+	}
+
+	if (mouseX > 37 && mouseX < 444 && mouseY > 19 && mouseY < 63) {
+		print('lightning')
+		lightning.play()
+	}
+
+	if (mouseX > 35 && mouseX < 107 && mouseY > 66 && mouseY < 417) {
+		print('window')
+		glasstap.play()
+	}
+
+		print(int(mouseX), int(mouseY))
 }
 
 function touchStarted() {
@@ -133,7 +148,3 @@ function touchEnded() {
 	mouseReleased()
 }
 
-function mouseClicked() {
-		print(int(mouseX), int(mouseY))
-
-	}
